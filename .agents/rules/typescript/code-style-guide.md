@@ -15,26 +15,26 @@ Use guard clauses and early returns. Do not nest core logic.
 ```typescript
 // 🚫 BAD
 function processUser(user: User | null): void {
-  if (user !== null) {
-    if (user.isActive) {
-      saveUser(user);
-    } else {
-      throw new Error("User is inactive");
-    }
-  } else {
-    throw new Error("User not found");
-  }
+	if (user !== null) {
+		if (user.isActive) {
+			saveUser(user);
+		} else {
+			throw new Error("User is inactive");
+		}
+	} else {
+		throw new Error("User not found");
+	}
 }
 
 //  GOOD
 function processUser(user: User | null): void {
-  if (!user) {
-    throw new Error("User not found");
-  }
-  if (!user.isActive) {
-    throw new Error("User is inactive");
-  }
-  saveUser(user);
+	if (!user) {
+		throw new Error("User not found");
+	}
+	if (!user.isActive) {
+		throw new Error("User is inactive");
+	}
+	saveUser(user);
 }
 ```
 
@@ -52,14 +52,14 @@ One responsibility per function or class. Extract sub-logic into helper function
 ```typescript
 // 🚫 BAD
 function parsePayload(payload: any): void {
-  console.log(payload.id);
+	console.log(payload.id);
 }
 
 //  GOOD
 function parsePayload(payload: unknown): void {
-  if (payload && typeof payload === "object" && "id" in payload) {
-    console.log((payload as { id: string }).id);
-  }
+	if (payload && typeof payload === "object" && "id" in payload) {
+		console.log((payload as { id: string }).id);
+	}
 }
 ```
 
@@ -70,14 +70,14 @@ function parsePayload(payload: unknown): void {
 ```typescript
 // 🚫 BAD
 interface User {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
 }
 
 //  GOOD
 type User = {
-  id: string;
-  name: string;
+	id: string;
+	name: string;
 };
 ```
 
@@ -100,15 +100,15 @@ const add = (a: number, b: number): number => a + b;
 ```typescript
 // 🚫 BAD
 type Configuration = {
-  apiUrl: string;
-  timeout: number;
+	apiUrl: string;
+	timeout: number;
 };
 const tags: string[] = ["typescript", "rules"];
 
 //  GOOD
 type Configuration = {
-  readonly apiUrl: string;
-  readonly timeout: number;
+	readonly apiUrl: string;
+	readonly timeout: number;
 };
 const tags: readonly string[] = ["typescript", "rules"];
 ```
@@ -126,23 +126,23 @@ const tags: readonly string[] = ["typescript", "rules"];
 ```typescript
 // 🚫 BAD
 async function fetchUser(id: string): Promise<User> {
-  const response = await fetch(`/api/users/${id}`);
-  return response.json();
+	const response = await fetch(`/api/users/${id}`);
+	return response.json();
 }
 
 //  GOOD
 import { z } from "zod";
 
 const UserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  email: z.string().email(),
+	id: z.string(),
+	name: z.string(),
+	email: z.string().email(),
 });
 
 async function fetchUser(id: string): Promise<User> {
-  const response = await fetch(`/api/users/${id}`);
-  const rawData = await response.json();
-  return UserSchema.parse(rawData);
+	const response = await fetch(`/api/users/${id}`);
+	const rawData = await response.json();
+	return UserSchema.parse(rawData);
 }
 ```
 
@@ -159,12 +159,12 @@ async function fetchUser(id: string): Promise<User> {
 ```typescript
 // 🚫 BAD
 if (!isValid) {
-  throw "Invalid argument";
+	throw "Invalid argument";
 }
 
 //  GOOD
 if (!isValid) {
-  throw new Error("Invalid argument");
+	throw new Error("Invalid argument");
 }
 ```
 
@@ -176,20 +176,20 @@ if (!isValid) {
 ```typescript
 // 🚫 BAD
 function loadData() {
-  fetch("/data")
-    .then((res) => res.json())
-    .then((data) => process(data));
+	fetch("/data")
+		.then((res) => res.json())
+		.then((data) => process(data));
 }
 
 //  GOOD
 async function loadData(): Promise<void> {
-  try {
-    const res = await fetch("/data");
-    const data = await res.json();
-    process(data);
-  } catch (error) {
-    console.error("Failed to load data:", error);
-  }
+	try {
+		const res = await fetch("/data");
+		const data = await res.json();
+		process(data);
+	} catch (error) {
+		console.error("Failed to load data:", error);
+	}
 }
 ```
 
@@ -219,16 +219,16 @@ Use these configurations to enforce style rules:
 
 ```json
 {
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-  }
+	"compilerOptions": {
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true
+	}
 }
 ```
 
@@ -239,46 +239,46 @@ import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 
 export default [
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        project: "./tsconfig.json",
-      },
-    },
-    plugins: {
-      "@typescript-eslint": typescriptEslint,
-    },
-    rules: {
-      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/explicit-function-return-type": [
-        "error",
-        {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-        },
-      ],
-      "@typescript-eslint/consistent-type-assertions": [
-        "error",
-        {
-          assertionStyle: "as",
-          objectLiteralTypeAssertions: "never",
-        },
-      ],
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
-      ],
-      "@typescript-eslint/prefer-readonly": "error",
-      "@typescript-eslint/await-thenable": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-misused-promises": "error",
-    },
-  },
+	{
+		files: ["**/*.ts", "**/*.tsx"],
+		languageOptions: {
+			parser: typescriptParser,
+			parserOptions: {
+				project: "./tsconfig.json",
+			},
+		},
+		plugins: {
+			"@typescript-eslint": typescriptEslint,
+		},
+		rules: {
+			"@typescript-eslint/consistent-type-definitions": ["error", "type"],
+			"@typescript-eslint/no-explicit-any": "error",
+			"@typescript-eslint/explicit-function-return-type": [
+				"error",
+				{
+					allowExpressions: true,
+					allowTypedFunctionExpressions: true,
+				},
+			],
+			"@typescript-eslint/consistent-type-assertions": [
+				"error",
+				{
+					assertionStyle: "as",
+					objectLiteralTypeAssertions: "never",
+				},
+			],
+			"@typescript-eslint/no-unused-vars": [
+				"error",
+				{
+					argsIgnorePattern: "^_",
+					varsIgnorePattern: "^_",
+				},
+			],
+			"@typescript-eslint/prefer-readonly": "error",
+			"@typescript-eslint/await-thenable": "error",
+			"@typescript-eslint/no-floating-promises": "error",
+			"@typescript-eslint/no-misused-promises": "error",
+		},
+	},
 ];
 ```
