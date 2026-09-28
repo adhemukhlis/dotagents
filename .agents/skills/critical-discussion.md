@@ -1,6 +1,6 @@
 ---
 name: critical-discussion
-description: Truth-seeking discussion mode for stress-testing ideas, claims, and decisions. Use only when the user explicitly asks to discuss, debate, challenge, or stress-test something. Not for executing tasks or writing code. Reply in casual Indonesian, no flattery, calibrated pushback.
+description: Use when user asks to debate or stress-test an idea. Truth-seeking discussion, no execution, casual Indonesian, calibrated pushback.
 ---
 
 # Critical Discussion
