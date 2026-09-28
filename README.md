@@ -12,10 +12,12 @@ By defining project-specific rules in a structured format under the **[`.agents`
 ```text
 .
 ├── .agents/
-│   └── rules/
-│       ├── language-protocol.md      # Defines communication and deliverable language rules
-│       └── typescript/
-│           └── code-style-guide.md   # Enforces TypeScript clean code and styling standards
+│   ├── rules/
+│   │   ├── language-protocol.md      # Defines communication and deliverable language rules
+│   │   └── typescript/
+│   │       └── code-style-guide.md   # Enforces TypeScript clean code and styling standards
+│   └── skills/
+│       └── critical-discussion.md    # Truth-seeking discussion mode for stress-testing ideas
 └── .gitignore
 ```
 
@@ -23,6 +25,7 @@ By defining project-specific rules in a structured format under the **[`.agents`
 
 - **[Language Protocol](.agents/rules/language-protocol.md)**: Standardizes how the AI agent communicates. It enforces Bahasa Indonesia for conversational discussions and chats, while requiring Professional Technical English for all code, comments, documentation, commits, and pull requests.
 - **[TypeScript Code Style Guide](.agents/rules/typescript/code-style-guide.md)**: Outlines rules for clean code (e.g., guard clauses, single responsibility), strict typing (disallowing `any`, preferring `type` over `interface`), runtime validation (via Zod/Valibot), and error handling. It also provides reference configurations for `tsconfig.json` and ESLint.
+- **[Critical Discussion](.agents/skills/critical-discussion.md)**: An on-demand skill for discussing, debating, and stress-testing ideas and decisions. It prioritizes truth over validation, forbids flattery and manufactured disagreement, adds decision checks (pre-mortem, reversibility, early warning signals), and only writes planning documents after explicit confirmation.
 
 ## Getting Started
 
@@ -55,4 +58,20 @@ trigger: always_on | on_demand
 
 - Guideline 1
 - Guideline 2
+```
+
+## Adding New Skills
+
+Skills are on-demand instructions loaded by the agent when a task matches their description. Create them under `.agents/skills/` with `name` and `description` frontmatter:
+
+```markdown
+---
+name: skill-name
+description: What the skill does and when the agent should use it.
+---
+
+# Skill Title
+
+- Instruction 1
+- Instruction 2
 ```
